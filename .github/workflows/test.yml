@@ -50,8 +50,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Download vulkan SDK
-      run: powershell (Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))
+    - name: Download scoop
+      run: powershell (Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh') &)
     
     - name: Install Vulkan SDK
       run: powershell (scoop install vulkan)
