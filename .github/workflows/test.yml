@@ -51,7 +51,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Download scoop and Install Vulkan SDK
-      run: powershell -command "Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh');[environment]::setEnvironmentVariable('SCOOP_GLOBAL','C:\ScoopApps','Machine');$env:SCOOP_GLOBAL='C:\ScoopApps'scoop install vulkan"
+      run: powershell -command "mkdir -p C:/ScoopApps;Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh');[environment]::setEnvironmentVariable('SCOOP_GLOBAL','C:\ScoopApps','Machine');$env:SCOOP_GLOBAL='C:\ScoopApps'scoop install vulkan"
       
     - name: Setup VULKAN_SDK
       run: set VULKAN_SDK = C:\ScoopApps\apps\vulkan\current
