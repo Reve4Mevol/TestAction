@@ -57,7 +57,7 @@ jobs:
       run: cmd /c setx VULKAN_SDK "%USERPROFILE%\scoop\apps\vulkan\current"
    
     - name: ls SDK_PATH_LIB
-      run: cmd /c dir "%VULKAN_SDK%\Lib"
+      run: cmd /c dir "%VULKAN_SDK%"
       
     - name: ls SDK_PATH_BIN
       run: cmd /c dir "%VULKAN_SDK%\Bin"
