@@ -1,0 +1,11 @@
+find_package(Vulkan)
+if (${Vulkan_FOUND})
+    message("-- found Vulkan library")
+else()
+    message(FATAL_ERROR "-- can not find the Vulkan lib, make sure you have installed the Vulkan SDK")
+endif()
+
+file(GLOB APPLICATION_SOURCES Src/*.cpp)
+add_library(application SHARED ${APPLICATION_SOURCES})
+target_include_directories(application PUBLIC Include ${Vulkan_INCLUDE_DIRS})
+target_link_libraries(application glfw ${Vulkan_LIBRARIES})
