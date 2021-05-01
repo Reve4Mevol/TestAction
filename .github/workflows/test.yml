@@ -50,11 +50,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Download scoop
-      run: powershell -command "Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')"
-    
-    - name: Install Vulkan SDK
-      run: powershell -command "scoop install vulkan"
+    - name: Download scoop and Install Vulkan SDK
+      run: powershell -command "Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh');scoop install vulkan"
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
