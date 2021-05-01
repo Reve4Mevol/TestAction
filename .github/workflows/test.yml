@@ -54,10 +54,10 @@ jobs:
       run: powershell -command "mkdir -p C:/ScoopApps;Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh');scoop install vulkan"
       
     - name: Setup VULKAN_SDK
-      run: set VULKAN_SDK = ~\scoop\apps\vulkan\current
+      run: cmd /c set VULKAN_SDK = ~\scoop\apps\vulkan\current
    
     - name: Setup VK_SDK_PATH 
-      run: set VK_SDK_PATH = ~\scoop\apps\vulkan\current
+      run: cmd /c set VK_SDK_PATH = ~\scoop\apps\vulkan\current
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
