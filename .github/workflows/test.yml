@@ -56,8 +56,11 @@ jobs:
     - name: Setup VULKAN_SDK
       run: cmd /c setx VULKAN_SDK "%USERPROFILE%\scoop\apps\vulkan\current"
    
-    - name: Setup VK_SDK_PATH 
-      run: cmd /c setx VK_SDK_PATH "%USERPROFILE%\scoop\apps\vulkan\current"
+    - name: ls SDK_PATH_LIB
+      run: cmd /c dir "%VULKAN_SDK%\Lib"
+      
+    - name: ls SDK_PATH_BIN
+      run: cmd /c dir "%VULKAN_SDK%\Bin"
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
