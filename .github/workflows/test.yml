@@ -49,14 +49,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Download scoop and Install Vulkan SDK
-      run: powershell -command "mkdir -p C:/ScoopApps;Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh');scoop install vulkan"
-      
-    - name: Setup VULKAN_SDK
-      shell: cmd
-      run: setx VULKAN_SDK "%USERPROFILE%\scoop\apps\vulkan\current"
-      
+    - uses: ./
+    
     - name: Test Vulkan SDK Install
       shell: cmd
       run: |
