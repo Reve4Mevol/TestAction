@@ -1,0 +1,58 @@
+name: 'Setup Vulkan SDK'
+description: 'Configures the core Vulkan SDK and sets VULKAN_SDK environment variable.'
+branding:
+  icon: 'play'  
+  color: 'red'  
+inputs:
+  vulkan-version:
+    description: 'specify a Vulkan SDK release version, e.g. 1.2.162.1'
+    default: 'latest'
+    required: false
+  vulkan-version-linux:
+    description: 'specify a linux-specific Vulkan SDK release version, e.g. 1.2.162.1'
+    default: ''
+    required: false
+  vulkan-version-windows:
+    description: 'specify a windows-specific Vulkan SDK release version, e.g. 1.2.162.1'
+    default: ''
+    required: false
+runs:
+  using: "composite"
+  steps: 
+    - name: Install Build Dependencies
+      shell: bash
+      run: |
+        case `uname -s` in
+          Linux)
+            sudo apt-get install -y ninja-build libwayland-dev libxrandr-dev 
+            echo VK_VERSION=${{ inputs.vulkan-version-linux }} >> $GITHUB_ENV
+            ;;
+          Darwin)
+            ;;
+          *) # Windows
+            mkdir _vulkan_tmp
+            curl -L -o _vulkan_tmp/ninja-win.zip https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-win.zip
+            unzip -d _vulkan_tmp _vulkan_tmp/ninja-win.zip
+            echo $PWD/_vulkan_tmp >> $GITHUB_PATH
+            echo VK_VERSION=${{ inputs.vulkan-version-windows }} >> $GITHUB_ENV
+            ;;
+        esac
+
+    - name: Clone and Build Vulkan SDK
+      shell: bash
+      run: |
+        VK_VERSION=${VK_VERSION:-${{ inputs.vulkan-version }}}
+        echo "VK_VERSION=$VK_VERSION" >> $GITHUB_ENV
+        echo "requested SDK version is $VK_VERSION"
+        $GITHUB_ACTION_PATH/install_vulkan_sdk.sh $VK_VERSION | tee -a $GITHUB_ENV
+
+    - name: Finalize SDK installation
+      shell: bash
+      run: |
+        if [ -z "$VULKAN_SDK" ]; then
+          echo "Failed to install Vulkan SDK $VK_VERSION."
+          exit 3
+        else
+          echo "Vulkan SDK $VK_VERSION ($VULKAN_SDK_VERSION) successfully installed to $VULKAN_SDK."
+        fi
+        test -d _vulkan_tmp && rm -rf _vulkan_tmp || true
