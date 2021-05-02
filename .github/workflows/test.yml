@@ -56,6 +56,13 @@ jobs:
     - name: Setup VULKAN_SDK
       shell: cmd
       run: setx VULKAN_SDK "%USERPROFILE%\scoop\apps\vulkan\current"
+      
+    - name: Test Vulkan SDK Install
+      shell: cmd
+      run: |
+        echo "Vulkan SDK Version=='%VULKAN_SDK_VERSION%'"
+        echo "VULKAN_SDK=='%VULKAN_SDK%'"
+        if "%VULKAN_SDK_VERSION%"=="" exit 1
    
     - name: ls SDK_PATH_LIB
       shell: cmd
